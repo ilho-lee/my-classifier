@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>사내 IT 요청 분류기</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>사내 IT 요청 분류기</h1>
+      <p class="sub">이름 · 전화번호 · 사번을 가린 문장만 AI(Gemini)에 보냅니다. 이 앱은 넣은 문장을 저장하지 않습니다.</p>
+    </header>
+
+    <div class="tabs" role="tablist">
+      <button id="tab-classify" role="tab" type="button" aria-selected="true">분류</button>
+      <button id="tab-score" role="tab" type="button" aria-selected="false">채점</button>
+    </div>
+
+    <p id="load-error" class="error" hidden></p>
+
+    <section id="panel-classify">
+      <form id="classify-form">
+        <label for="sentence">요청 문장 한 줄</label>
+        <textarea id="sentence" rows="3"></textarea>
+        <button id="classify-btn" class="primary" type="submit">분류하기</button>
+      </form>
+      <div id="classify-result" hidden>
+        <div id="r-note" class="notice" hidden>
+          <strong>AI 없이 규칙으로 갈랐습니다</strong>
+          <span id="r-note-why"></span>
+        </div>
+        <dl class="result">
+          <dt>가린 문장</dt><dd id="r-masked"></dd>
+          <dt>칸</dt><dd id="r-category" class="value"></dd>
+          <dt>긴급도</dt><dd id="r-urgency" class="value"></dd>
+          <dt>이유</dt><dd id="r-reason"></dd>
+          <dt>가른 쪽</dt><dd id="r-by"></dd>
+        </dl>
+      </div>
+    </section>
+
+    <section id="panel-score" hidden>
+      <button id="score-btn" class="primary" type="button">규칙으로 채점</button>
+      <button id="score-ai-btn" class="primary" type="button">AI로 채점</button>
+      <p id="score-msg" class="notice" hidden></p>
+      <div id="score-result" hidden>
+        <table class="score-table">
+          <thead>
+            <tr><th scope="col"></th><th scope="col">규칙</th><th scope="col">AI</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">칸</th><td id="rule-category">-</td><td id="ai-category">-</td></tr>
+            <tr><th scope="row">긴급도</th><td id="rule-urgency">-</td><td id="ai-urgency">-</td></tr>
+            <tr><th scope="row">둘 다 맞음</th><td id="rule-both">-</td><td id="ai-both">-</td></tr>
+            <tr><th scope="row">답을 못 받은 문장</th><td id="rule-missed">-</td><td id="ai-missed">-</td></tr>
+          </tbody>
+        </table>
+        <button id="download-btn" class="secondary" type="button" hidden>AI 채점 결과 내려받기</button>
+        <h2><span id="s-wrong-who"></span> 틀린 문장 <span id="s-wrong-count"></span>개 <small>(정답 → 판정)</small></h2>
+        <ul id="s-wrong" class="wrong"></ul>
+      </div>
+    </section>
+
+    <footer id="owner"></footer>
+  </main>
+  <script src="mask.js"></script>
+  <script src="rules.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
